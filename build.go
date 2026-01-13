@@ -3,6 +3,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"os"
@@ -115,14 +116,25 @@ func main() {
 
 func getGitVersion() string {
 	tag, _ := runGit("describe", "--tags", "--abbrev=0")
-	commit, _ := runGit("rev-parse", "--short", "HEAD")
+	commit, _ := runGit("rev-parse", "HEAD")
 
 	// check if HEAD points to the tag
 	tagCommit, _ := runGit("rev-list", "-n", "1", tag)
-	if tagCommit == commit {
-		return tag
+
+	if !detectDirty() {
+		if tagCommit == commit {
+			return tag
+		}
+		if len(commit) < 7 {
+			return fmt.Sprintf("%s-%s", tag, commit)
+		}
+		return fmt.Sprintf("%s-%s", tag, commit[:7])
 	}
-	return fmt.Sprintf("%s-dirty-%s", tag, commit)
+
+	if len(commit) < 7 {
+		return fmt.Sprintf("%s-dirty-%s", tag, commit)
+	}
+	return fmt.Sprintf("%s-dirty-%s", tag, commit[:7])
 }
 
 func runGit(args ...string) (string, error) {
@@ -130,6 +142,14 @@ func runGit(args ...string) (string, error) {
 	cmd.Stderr = nil
 	out, err := cmd.Output()
 	return strings.TrimSpace(string(out)), err
+}
+
+func detectDirty() bool {
+	cmd := exec.Command("git", "status", "--poreclain")
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+	_ = cmd.Run()
+	return stderr.String() != ""
 }
 
 const (
