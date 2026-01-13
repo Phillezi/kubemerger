@@ -32,6 +32,12 @@ func WithRoot(rootDir string) Option {
 	}
 }
 
+func WithOutput(output string) Option {
+	return func(d *Daemon) {
+		d.out = output
+	}
+}
+
 func New(opts ...Option) *Daemon {
 	d := &Daemon{}
 
