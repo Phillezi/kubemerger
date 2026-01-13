@@ -3,7 +3,6 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"os"
@@ -145,11 +144,13 @@ func runGit(args ...string) (string, error) {
 }
 
 func detectDirty() bool {
-	cmd := exec.Command("git", "status", "--poreclain")
-	var stderr bytes.Buffer
-	cmd.Stderr = &stderr
-	_ = cmd.Run()
-	return stderr.String() != ""
+	cmd := exec.Command("git", "status", "--porcelain")
+	out, err := cmd.Output()
+	if err != nil {
+		errf("dirty check got err: %s", err.Error())
+		return false
+	}
+	return strings.TrimSpace(string(out)) != ""
 }
 
 const (
