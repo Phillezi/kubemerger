@@ -1,0 +1,16 @@
+[Unit]
+Description=kubemerger Daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/kubemergerd
+Restart=on-failure
+RestartSec=2
+Environment=PATH=/usr/local/bin/:%h/.local/bin:/usr/bin:/bin
+WorkingDirectory=%h
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
