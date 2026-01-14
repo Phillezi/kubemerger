@@ -9,10 +9,11 @@ const (
 	DefaultKubeConfig = DefaultKubeDir + "/config"
 )
 
-var defaultFilePaths = []string{
-	DefaultKubeDir,
+var defaultIgnorePaths = []string{
+	DefaultKubeDir + "/cache",
+	DefaultKubeDir + "/kubectx",
 }
 
-func DefaultFilePaths() []string {
-	return slices.Clone(defaultFilePaths)
+func DefaultIgnorePaths() []string {
+	return slices.Clone(defaultIgnorePaths)
 }

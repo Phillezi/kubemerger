@@ -64,7 +64,7 @@ func (d *Daemon) Run() error {
 	var output string = utils.Expand(d.out)
 	w, err := recwatch.New(
 		utils.Expand(d.root),
-		[]string{output},
+		append(defaults.DefaultIgnorePaths(), output),
 	)
 	if err != nil {
 		log.Default().Println("Error:", err)
