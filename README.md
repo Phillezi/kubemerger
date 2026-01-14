@@ -10,6 +10,34 @@ This is neat because you can have many different kubeconfig files and still use 
 
 `kubemergerd` is a daemon that is meant to run in the background. This daemon watches the provided root directory (recursively), and will dynamically watch / unwatch on changes to any sub-directory of this root directory, by default the directory is `~/.kube/` and the output file (`~/.kube/config` by default) is automatically ignored from this watchlist, so we don`t feedback loop.
 
+## Installing
+
+Clone the repository and then inside the repo run:
+
+### Linux + systemd service
+
+> [!NOTE]
+> The command below is only for Linux distros with systemd.
+
+```bash
+go run build.go && \
+  sudo cp ./bin/kubemergerd /usr/local/bin/kubemergerd && \
+  mkdir -p ~/.config/systemd/user/ && \
+  cp ./dist/kubemergerd.service ~/.confug/systemd/user/kubemergerd.service && \
+  systemctl --user daemon-reload && \
+  systemctl --user enable --now kubemergerd.service
+```
+
+### Other
+
+Build and install:
+
+```bash
+go run build.go && \
+  sudo cp ./bin/kubemergerd /usr/local/bin/kubemergerd
+
+```
+
 ## Building
 
 In the cloned repository there is a build script that will just simplifies building by setting the version from the git tag.
