@@ -14,6 +14,28 @@ This is neat because you can have many different kubeconfig files and still use 
 
 Clone the repository and then inside the repo run:
 
+### Arch on the aur
+
+This project is available as [kubemerger-git](https://aur.archlinux.org/packages/kubemerger-git) on the AUR.
+
+#### With yay
+
+```bash
+yay -S kubemerger-git
+```
+
+#### With paru
+
+```bash
+paru -S kubemerger-git
+```
+
+#### No aur helper
+
+```bash
+git clone  https://aur.archlinux.org/kubemerger-git.git && cd kubemerger-git && makepkg -si && cd ..
+```
+
 ### Linux + systemd service
 
 > [!NOTE]
