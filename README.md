@@ -23,7 +23,7 @@ Clone the repository and then inside the repo run:
 go run build.go && \
   sudo cp ./bin/kubemergerd /usr/local/bin/kubemergerd && \
   mkdir -p ~/.config/systemd/user/ && \
-  cp ./dist/kubemergerd.service ~/.confug/systemd/user/kubemergerd.service && \
+  cp ./dist/kubemergerd.service ~/.config/systemd/user/kubemergerd.service && \
   systemctl --user daemon-reload && \
   systemctl --user enable --now kubemergerd.service
 ```
