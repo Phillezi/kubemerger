@@ -123,13 +123,6 @@ func filePrefix(path string) string {
 	return strings.TrimSuffix(base, ext)
 }
 
-func ensureTrailingDash(s string) string {
-	if strings.HasSuffix(s, "-") {
-		return s
-	}
-	return s + "-"
-}
-
 // uniqueName ensures the key does not already exist in the target map.
 // If it does, it appends -2, -3, etc.
 func uniqueName[T any](m map[string]T, base string) string {

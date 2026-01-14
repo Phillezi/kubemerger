@@ -61,13 +61,14 @@ func New(opts ...Option) *Daemon {
 }
 
 func (d *Daemon) Run() error {
-	res := utils.Expand(d.out)
+	var output string = utils.Expand(d.out)
 	w, err := recwatch.New(
 		utils.Expand(d.root),
-		[]string{res},
+		[]string{output},
 	)
 	if err != nil {
-		log.Fatal(err)
+		log.Default().Println("Error:", err)
+		return err
 	}
 
 	for {
@@ -88,10 +89,10 @@ func (d *Daemon) Run() error {
 				log.Default().Println("Error marshalling:", err)
 				break
 			}
-			if err := os.WriteFile(res, data, 0o644); err != nil {
-				log.Default().Println("Error writing to file:", res, ", err:", err)
+			if err := os.WriteFile(output, data, 0o644); err != nil {
+				log.Default().Println("Error writing to file:", output, ", err:", err)
 			} else {
-				log.Default().Println("Wrote to file:", res)
+				log.Default().Println("Wrote to file:", output)
 			}
 		case <-d.ctx.Done():
 			return d.ctx.Err()

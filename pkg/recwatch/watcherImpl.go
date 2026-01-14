@@ -174,6 +174,9 @@ func (w *watcherImpl) emitFiles() {
 
 	files := make([]string, 0, len(w.files))
 	for f := range w.files {
+		if w.isExcluded(f) {
+			continue
+		}
 		files = append(files, f)
 	}
 

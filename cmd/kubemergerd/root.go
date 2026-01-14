@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	viperconf "github.com/Phillezi/common/config/viper"
 	"github.com/phillezi/kubemerger/internal/daemon"
@@ -15,7 +17,8 @@ var rootCmd = &cobra.Command{
 	Long:    long,
 	Version: version,
 	Run: func(cmd *cobra.Command, args []string) {
-		d := daemon.New(daemon.WithContext(cmd.Context()), daemon.WithRoot(viper.GetString("root-dir")), daemon.WithOutput("output"))
+		fmt.Fprintf(os.Stderr, "%s\nVersion: %s\n", long, version)
+		d := daemon.New(daemon.WithContext(cmd.Context()), daemon.WithRoot(viper.GetString("root-dir")), daemon.WithOutput(viper.GetString("output")))
 		if err := d.Run(); err != nil {
 			log.Default().Printf("Error: %v\n", err)
 		}
